@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import { logIn, logOut, signUp, useAuth } from "./firebaseConfig";
+import { logIn, logOut, signUp, useAuth } from "../../fireBase";
+import Profile from "./Profile";
 
 function Auth() {
   const currentUser = useAuth();
@@ -29,7 +30,8 @@ function Auth() {
   }
   return (
     <div id="Auth">
-      <span>Currently logged in as : {currentUser?.email}</span>
+      {!currentUser && <div>로그인 해 주세요 </div>}
+      {currentUser && <span>환영합니다 {currentUser?.email} 님</span>}
       <div>
         <input ref={refEmail} placeholder="E Mail" />
         <input ref={refPassword} type="password" placeholder="Password" />
@@ -38,8 +40,8 @@ function Auth() {
         <button disabled={loading || currentUser!=null} onClick={handleLogIn} >Log In</button>
         <button disabled={loading || currentUser==null} onClick={handleLogOut} >Log Out</button>
       </div>
-
       <button disabled={loading || currentUser!=null} onClick={handleSignUp} >Sign Up</button>
+      {currentUser &&<Profile />}
     </div>
   );
 }
